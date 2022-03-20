@@ -1,0 +1,46 @@
+.gallery {
+   display: inline-flex;
+   margin-top: 100px;
+}
+
+.gallery span {
+   position: relative;
+   display: block;
+}
+
+.photo {
+   margin-right: 3px;
+}
+
+.photo img {
+   width: 200px;
+   height: 200px;
+}
+.go {
+   margin-bottom: 5px;
+}
+.go input {
+   font-size: 15px;
+   margin-right: 5px;
+}
+
+.go button {
+   font-size: 15px;
+}
+
+.delete {
+   margin-bottom: 5px;
+}
+
+.delete input {
+   font-size: 15px;
+   margin-right: 5px;
+}
+
+.delete button {
+   font-size: 15px;
+}
+
+.search input {
+   font-size: 15px;
+}

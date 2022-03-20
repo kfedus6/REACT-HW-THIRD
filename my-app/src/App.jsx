@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import './Main.css'
+import FormAddPhoto from './Components/FormAddPhoto';
+import FormRemovePhoto from './Components/FormRemovePhoto';
+import FormSearchPhoto from './Components/FormSearchPhoto';
+import Gallery from './Components/Gallery';
+
+import './Style/Main.css'
 
 function App() {
 
@@ -10,8 +15,10 @@ function App() {
 
    const [removeTitle, setRemoveTitle] = useState('');
 
-   const [words, setWords] = useState('Нема картинки');
+   const [words, setWords] = useState('Нема картинки !');
 
+   const [from, setFrom] = useState('0');
+   const [to, setTo] = useState('2');
 
    const addPhoto = (e) => {
       setPhoto(e.target.value)
@@ -36,37 +43,38 @@ function App() {
       setGallery(newGallery);
    }
 
+   const next = () => {
+      let f = +from + 3;
+      let t = +to + 3;
+      setFrom(f);
+      setTo(t);
+
+      if (+to + 1 >= gallery.length) {
+         setFrom('0');
+         setTo('2');
+      }
+   }
+
+   const prev = () => {
+      let f = +from - 3;
+      let t = +to - 3;
+      setFrom(f);
+      setTo(t);
+
+      if (from <= 0) {
+         setFrom(gallery.length - 3);
+         setTo(gallery.length - 1);
+      }
+   }
+
    return (
       <>
-         <div className='go'>
-            <input onChange={addPhoto} type="text" placeholder='силка картинки' />
-            <input onChange={addTitle} type="text" placeholder='назва' />
-            <button onClick={addPhotoGallery}>go</button>
-         </div>
-         <div className='delete'>
-            <input onChange={removePhoto} type="text" placeholder='удалить' />
-            <button onClick={remove}>delete</button>
-         </div>
-         <div className='search'>
-            <input type="text" placeholder='пошук' />
-         </div>
-         <div className='gallery'>
-            <div>
-               <button>prev</button>
-            </div>
-            <span>{words}</span>
-            {gallery.map((item, index) => {
-               return <div key={index} className='photo'>
-                  <span>{item.title}</span>
-                  <img src={item.img} alt={item.title}></img>
-               </div>
-            })}
-            <div>
-               <button>next</button>
-            </div>
-         </div>
+         <FormAddPhoto addPhoto={addPhoto} addTitle={addTitle} addPhotoGallery={addPhotoGallery} />
+         <FormRemovePhoto removePhoto={removePhoto} remove={remove} />
+         <FormSearchPhoto />
+         <Gallery words={words} gallery={gallery} from={from} to={to} prev={prev} next={next} />
       </>
    )
 }
 
-export default App
+export default App;
