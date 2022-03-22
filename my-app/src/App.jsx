@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
-import FormAddPhoto from './Components/FormAddPhoto';
-import FormRemovePhoto from './Components/FormRemovePhoto';
-import FormSearchPhoto from './Components/FormSearchPhoto';
+import React, { useMemo, useState } from 'react'
+import FormPhoto from './Components/FormPhoto';
 import Gallery from './Components/Gallery';
 
 import './Style/Main.css'
@@ -19,6 +17,8 @@ function App() {
 
    const [from, setFrom] = useState('0');
    const [to, setTo] = useState('2');
+
+   const [query, setQuery] = useState('')
 
    const addPhoto = (e) => {
       setPhoto(e.target.value)
@@ -67,12 +67,18 @@ function App() {
       }
    }
 
+   const galleryFinal = useMemo(() => {
+      if (query != '') {
+         return gallery.filter(item => item.title.includes(query))
+      } else {
+         return gallery
+      }
+   }, [query, gallery])
+
    return (
       <>
-         <FormAddPhoto addPhoto={addPhoto} addTitle={addTitle} addPhotoGallery={addPhotoGallery} />
-         <FormRemovePhoto removePhoto={removePhoto} remove={remove} />
-         <FormSearchPhoto />
-         <Gallery words={words} gallery={gallery} from={from} to={to} prev={prev} next={next} />
+         <FormPhoto addPhoto={addPhoto} addTitle={addTitle} addPhotoGallery={addPhotoGallery} removePhoto={removePhoto} remove={remove} setQuery={setQuery} />
+         <Gallery words={words} gallery={galleryFinal} from={from} to={to} prev={prev} next={next} />
       </>
    )
 }
